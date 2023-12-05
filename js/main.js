@@ -66,7 +66,7 @@ const posts = [
 const container = document.getElementById('container');
 
 // Creo una funzione per generare il post
-function createPostHTML(post) {
+function createPost(post) {
     return `
         <div class="post">
             <div class="post__header">
@@ -93,7 +93,7 @@ function createPostHTML(post) {
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">80</b> persone
+                        <span class="like_number"> Piace a ${post.likes} persone </span>
                     </div>
                 </div> 
             </div>
@@ -106,15 +106,33 @@ posts.forEach(post => {
     // creo il div che conterrà il post
     const postDiv = document.createElement('div');
     // inserisco il post all'interno del div
-    postDiv.innerHTML = createPostHTML(post);
+    postDiv.innerHTML = createPost(post);
 
     container.append(postDiv);
 });
 
 
 
-
-
-
-
 // Milestone 2 - Se clicchiamo sul tasto “Mi Piace” cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo. Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+
+
+const likeBtns = document.querySelectorAll(".like-button");
+
+const likedPostIds = []; 
+
+
+likeBtns.forEach((likeBtn, index) => {
+  likeBtn.addEventListener("click", function() {
+    {
+      this.classList.add("like-button--liked");
+      posts[index].likes++; 
+      const postContainer = this.closest('.post');
+      const likesCounter = postContainer.querySelector('.like_number');
+      likesCounter.textContent = `Piace a ${posts[index].likes} persone`;
+      likedPostIds.push(posts[index].id);
+      console.log("post a cui hai messo like: ", likedPostIds); 
+    }
+  });
+});
+
+
